@@ -3,39 +3,31 @@ import api from "../api";
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
-  // const getBageClasses = () => {
-  //   let classes = "badge ";
-  //   classes += users.length === 0 ? "bg-danger" : "bg-primary";
-  //   return classes;
-  // };
-
   const handleDelete = (id) => {
     setUsers((prevState) => prevState.filter((user) => user._id !== id));
-    console.log(users.length);
   };
 
   const renderPhrase = (numberOfUsers) => {
     let lastUser = Number(numberOfUsers); //количество человек
-    if (users.length >= 5)
-      return <h2> {lastUser} человек тусанут с тобой сегодня</h2>;
-    else if (users.length >= 2)
-      return <h2> {lastUser} человека тусанет с тобой сегодня</h2>;
+    if (users.length >= 5 && users.length < 15)
+      return `${lastUser} человек тусанет с тобой сегодня`;
+    else if (users.length >= 2 && users.length <= 4)
+      return `${lastUser} человека тусанут с тобой сегодня`;
     else if (users.length === 1)
-      return <h2> {lastUser} человек тусанет с тобой сегодня</h2>;
+      return `${lastUser} человек тусанет с тобой сегодня`;
   };
 
   return (
     <>
-      {/* <span className={getBageClasses()}>{renderPhrase(users.length)}</span> */}
-      <span
+      <div
         className={"badge " + (users.length !== 0 ? "bg-primary" : "bg-danger")}
       >
         {users.length !== 0 ? (
-          renderPhrase(users.length)
+          <h2>{renderPhrase(users.length)}</h2>
         ) : (
-          <h2> Никто не тусанет с тобой</h2>
+          <h2>Никто не тусанет с тобой</h2>
         )}
-      </span>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -79,3 +71,9 @@ const Users = () => {
   );
 };
 export default Users;
+
+// const getBageClasses = () => {
+//   let classes = "badge ";
+//   classes += users.length === 0 ? "bg-danger" : "bg-primary";
+//   return classes;
+// };
