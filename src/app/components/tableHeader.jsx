@@ -13,11 +13,20 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     }
   };
 
+  const handleSortByArrow = (item) => {
+    if (selectedSort.path === item) {
+      return selectedSort.order === "asc" ? "up" : "down";
+    }
+  };
+
   return (
     <thead>
       <tr>
         {Object.keys(columns).map((column) => (
           <th
+            className={
+              "bi bi-caret-" + handleSortByArrow(columns[column].path) + "-fill"
+            }
             key={column}
             onClick={
               columns[column].path
@@ -28,13 +37,6 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             scope="col"
           >
             {columns[column].name}
-            <i
-              className={
-                "bi bi-caret-" +
-                (selectedSort.order === "asc" ? "up" : "down") +
-                "-fill"
-              }
-            ></i>
           </th>
         ))}
 

@@ -14,6 +14,8 @@ module.exports = {
   plugins: ["react"],
   rules: {
     semi: [2, "always"],
+    // "comma-dangle": ["error", "never"],
+    "comma-dangle": [2, "always-multiline"],
     indent: [0, 4],
     "space-before-function-paren": [
       "error",
