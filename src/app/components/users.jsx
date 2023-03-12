@@ -11,20 +11,17 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfession] = useState();
   const [selectedProf, setSelectedProf] = useState();
-  const [sortBy, setSortBy] = useState({
-    iter: "name",
-    order: "asc",
-  });
-
+  const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const pageSize = 8;
-
   const [users, setUsers] = useState();
   useEffect(() => {
     api.users.fetchAll().then((data) => setUsers(data));
   }, []);
+
   const handleDelete = (userId) => {
     setUsers(users.filter((user) => user._id !== userId));
   };
+
   const handleToggleBookMark = (id) => {
     setUsers(
       users.map((user) => {
@@ -40,6 +37,7 @@ const Users = () => {
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfession(data));
   }, []);
+
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedProf]);
@@ -66,7 +64,6 @@ const Users = () => {
 
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
-
     const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
       setSelectedProf();

@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import BookMark from "./bookmark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
 
-const UsersTable = ({
+const UserTable = ({
   users,
   onSort,
   selectedSort,
@@ -14,12 +15,15 @@ const UsersTable = ({
 }) => {
   const columns = {
     name: { path: "name", name: "Имя" },
-    quelities: {
+    qualities: {
       name: "Качества",
       component: (user) => <QualitiesList qualities={user.qualities} />,
     },
-    profession: { path: "profession.name", name: "Профессии" },
-    completedMeetings: { path: "completedMeetings", name: "Встретился, раз" },
+    professions: { path: "profession.name", name: "Профессия" },
+    completedMeetings: {
+      path: "completedMeetings",
+      name: "Встретился, раз",
+    },
     rate: { path: "rate", name: "Оценка" },
     bookmark: {
       path: "bookmark",
@@ -39,7 +43,6 @@ const UsersTable = ({
       ),
     },
   };
-
   return (
     <Table
       onSort={onSort}
@@ -49,7 +52,8 @@ const UsersTable = ({
     />
   );
 };
-UsersTable.propTypes = {
+
+UserTable.propTypes = {
   users: PropTypes.array.isRequired,
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
@@ -57,4 +61,4 @@ UsersTable.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-export default UsersTable;
+export default UserTable;
