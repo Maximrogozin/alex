@@ -1,5 +1,5 @@
 import React from "react";
-import UsersList from "./usersList";
+import UsersList from "../components/usersList";
 import { useParams } from "react-router-dom";
 import UserPage from "../components/userPage";
 
