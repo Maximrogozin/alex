@@ -33,7 +33,9 @@ const UserPage = ({ userId }) => {
                 <div>completedMeetings: {user.completedMeetings}</div>
 
                 <h2>Rate: {user.rate}</h2>
-                <button onClick={handleToUsers}>Все пользователи</button>
+                <button onClick={handleToUsers} className="btn btn-warning">
+                    Все пользователи
+                </button>
             </div>
         );
     }
