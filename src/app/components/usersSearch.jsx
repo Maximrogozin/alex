@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const UsersSearch = ({ onChange }) => {
+const UsersSearch = ({ onChange, searchedUser }) => {
     return (
         <div>
             <input
@@ -9,12 +9,14 @@ const UsersSearch = ({ onChange }) => {
                 type="text"
                 placeholder="Search..."
                 onChange={onChange}
+                value={searchedUser}
             />
         </div>
     );
 };
 UsersSearch.propTypes = {
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    searchedUser: PropTypes.string
 };
 
 export default UsersSearch;

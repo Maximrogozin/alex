@@ -15,7 +15,7 @@ const UsersList = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
     const [users, setUsers] = useState();
-    const [searchedUser, setSearchedUser] = useState();
+    const [searchedUser, setSearchedUser] = useState("");
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
@@ -42,11 +42,13 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchedUser]);
 
     const handleProfessionSelect = (item) => {
+        if (searchedUser !== "") setSearchedUser("");
         setSelectedProf(item);
     };
+    console.log(searchedUser);
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
@@ -57,6 +59,7 @@ const UsersList = () => {
     };
 
     const handleUserSearch = ({ target }) => {
+        setSelectedProf(undefined);
         setSearchedUser(target.value);
     };
 
@@ -103,7 +106,10 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    <UsersSearch onChange={handleUserSearch} />
+                    <UsersSearch
+                        onChange={handleUserSearch}
+                        searchedUser={searchedUser}
+                    />
                     {count > 0 && (
                         <UsersTable
                             users={usersCrop}
