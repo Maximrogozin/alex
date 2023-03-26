@@ -15,6 +15,7 @@ const UsersList = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
     const [users, setUsers] = useState();
+    const [searchedUser, setSearchedUser] = useState();
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
@@ -55,12 +56,16 @@ const UsersList = () => {
         setSortBy(item);
     };
 
-    const handleUserSearch = (event) => {
-        setUsers(event.target.value);
+    const handleUserSearch = ({ target }) => {
+        setSearchedUser(target.value);
     };
 
     if (users) {
-        const filteredUsers = selectedProf
+        const filteredUsers = searchedUser
+            ? users.filter((user) =>
+                  user.name.toLowerCase().includes(searchedUser.toLowerCase())
+              )
+            : selectedProf
             ? users.filter(
                   (user) =>
                       JSON.stringify(user.profession) ===
