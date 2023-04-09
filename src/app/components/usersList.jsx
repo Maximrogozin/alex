@@ -7,15 +7,14 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import _ from "lodash";
-import UsersSearch from "./usersSearch";
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const pageSize = 8;
+    const pageSize = 3;
     const [users, setUsers] = useState();
-    const [searchedUser, setSearchedUser] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
     }, []);
@@ -42,13 +41,13 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf, searchedUser]);
+    }, [selectedProf, searchQuery]);
 
     const handleProfessionSelect = (item) => {
-        if (searchedUser !== "") setSearchedUser("");
+        // if (searchQuery !== "") setSearchQuery("");
+        searchQuery !== "" && setSearchQuery("");
         setSelectedProf(item);
     };
-    console.log(searchedUser);
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
@@ -58,15 +57,18 @@ const UsersList = () => {
         setSortBy(item);
     };
 
-    const handleUserSearch = ({ target }) => {
+    const handleSearchQuery = ({ target }) => {
         setSelectedProf(undefined);
-        setSearchedUser(target.value);
+        setSearchQuery(target.value);
     };
 
     if (users) {
-        const filteredUsers = searchedUser
-            ? users.filter((user) =>
-                  user.name.toLowerCase().includes(searchedUser.toLowerCase())
+        const filteredUsers = searchQuery
+            ? users.filter(
+                  (user) =>
+                      user.name
+                          .toLowerCase()
+                          .indexOf(searchQuery.toLowerCase()) !== -1
               )
             : selectedProf
             ? users.filter(
@@ -106,9 +108,12 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    <UsersSearch
-                        onChange={handleUserSearch}
-                        searchedUser={searchedUser}
+                    <input
+                        type="text"
+                        name="searchQuery"
+                        placeholder="Search..."
+                        onChange={handleSearchQuery}
+                        value={searchQuery}
                     />
                     {count > 0 && (
                         <UsersTable
