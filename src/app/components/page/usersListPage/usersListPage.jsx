@@ -12,7 +12,7 @@ const UsersListPage = () => {
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const pageSize = 3;
+    const pageSize = 8;
     const [users, setUsers] = useState();
     const [searchQuery, setSearchQuery] = useState("");
     useEffect(() => {
@@ -38,7 +38,6 @@ const UsersListPage = () => {
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
     }, []);
-    console.log(professions);
 
     useEffect(() => {
         setCurrentPage(1);

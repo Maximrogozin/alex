@@ -33,13 +33,36 @@ const UserPage = ({ userId }) => {
                 <div>completedMeetings: {user.completedMeetings}</div>
 
                 <h2>Rate: {user.rate}</h2>
-                <button onClick={handleToUsers} className="btn btn-warning">
-                    Все пользователи
-                </button>
+                <div>
+                    <button onClick={handleToUsers} className="btn btn-warning">
+                        Все пользователи
+                    </button>
+                </div>
+                <div className="mt-2">
+                    <button
+                        onClick={() => {
+                            history.push(`/users/${userId}/edit`);
+                        }}
+                        className="btn btn-warning"
+                    >
+                        Редактировать
+                    </button>
+                </div>
             </div>
         );
     }
-    return <h1>Loading...</h1>;
+    return (
+        <div className="d-flex justify-content-center">
+            <button className="btn btn-primary" type="button" disabled>
+                <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                ></span>
+                <span className="sr-only">Loading...</span>
+            </button>
+        </div>
+    );
 };
 UserPage.propTypes = {
     userId: PropTypes.string.isRequired
