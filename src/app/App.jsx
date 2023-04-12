@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./components/navBar";
+import NavBar from "./components/ui/navBar";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Login from "./layouts/login";
 import Main from "./layouts/main";
@@ -12,7 +12,7 @@ function App() {
             <NavBar />
             <Switch>
                 <Route path="/users/:userId?" component={Users} />
-                <Route path="/login" component={Login} />
+                <Route path="/login/:type?" component={Login} />
                 <Route path="/" component={Main} />
                 <Route path="/404" component={NotFound} />
                 <Redirect to="404" />
