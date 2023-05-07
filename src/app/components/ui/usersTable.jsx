@@ -46,8 +46,11 @@ const UserTable = ({
                 <button
                     onClick={() => onDelete(user._id)}
                     className="btn btn-danger"
+                    size="10x"
                 >
-                    delete
+                    {/* <i className="bi bi-trash3 m-2"></i> */}
+                    <i className="bi bi-file-earmark-x "></i>
+                    {/* Delete */}
                 </button>
             )
         }

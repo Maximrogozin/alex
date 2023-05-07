@@ -13,10 +13,15 @@ const SearchStatus = ({ length }) => {
     return (
         <h2>
             <span
-                className={"badge " + (length > 0 ? "bg-primary" : "bg-danger")}
+                className={
+                    "badge " +
+                    (length > 0
+                        ? "text-bg-info border border-5 border-secondary"
+                        : "bg-danger border border-5 border-dark")
+                }
             >
                 {length > 0
-                    ? `${length + " " + renderPhrase(length)}   с тобой сегодня`
+                    ? `${length + " " + renderPhrase(length)} с тобой сегодня`
                     : "Никто с тобой не тусанет"}
             </span>
         </h2>

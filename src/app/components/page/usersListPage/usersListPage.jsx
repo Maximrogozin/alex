@@ -90,7 +90,7 @@ const UsersListPage = () => {
         };
 
         return (
-            <div className="d-flex">
+            <div className="d-flex px-4 p-3 shadow-custom mt-5 mx-auto w-90vw">
                 {professions && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
@@ -106,7 +106,7 @@ const UsersListPage = () => {
                         </button>
                     </div>
                 )}
-                <div className="d-flex flex-column">
+                <div className="d-flex flex-column w-100">
                     <SearchStatus length={count} />
                     <input
                         type="text"
