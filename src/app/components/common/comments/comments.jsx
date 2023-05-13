@@ -1,61 +1,56 @@
-import React, { useState, useEffect } from "react";
-import SelectField from "../form/selectField";
-import TextareaSelectedField from "../form/TextareaSelectedField";
+import React, { useEffect, useState } from "react";
+import AddComments from "./addComments";
+import ListOfComments from "./listOfComments";
 import api from "../../../api";
+import { useParams } from "react-router-dom";
+import _ from "lodash";
 
 const Comments = () => {
-    const [data, setData] = useState({ user: "", message: "" });
-    const [user, setUser] = useState();
-    console.log(user);
-
+    const { userId } = useParams();
+    const [comments, setComments] = useState([]);
     useEffect(() => {
-        api.users.fetchAll().then((data) => {
-            const listOfUsers = Object.keys(data).map((userName) => ({
-                value: data[userName]._id,
-                label: data[userName].name
-            }));
-            setUser(listOfUsers);
+        api.comments.fetchCommentsForUser(userId).then((data) => {
+            setComments(data);
+            console.log(data);
         });
     }, []);
 
-    console.log(user);
-    console.log(data.user);
-
-    const handleChange = (target) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
+    const handleRemove = (id) => {
+        api.comments
+            .remove(id)
+            .then((id) =>
+                setComments(comments.filter((comment) => comment._id !== id))
+            );
     };
 
+    // добавляем новый коммент от нового юзера
+    const handleSubmit = (data) => {
+        api.comments
+            .add({ ...data, pageId: userId })
+            .then((data) => setComments([...comments, data]));
+    };
+
+    const sortedComments = _.orderBy(comments, ["created_at"], ["desc"]);
     return (
         <div className="col-md-8">
             <div className="card mb-2">
-                <h3 className="card-body">New comment</h3>
-                <span className="card-body">
-                    <SelectField
-                        defaultOption="Выберете пользователя"
-                        name="user"
-                        options={user}
-                        onChange={handleChange}
-                        value={data.user}
-                    />
-                    <TextareaSelectedField
-                        type="text"
-                        label="Сообщение"
-                        name="message"
-                        value={data.email}
-                        onChange={handleChange}
-                    />
-                </span>
-            </div>
-            <div className="card mb-3">
+                {" "}
                 <div className="card-body ">
-                    <h2>Comments</h2>
-                    <hr />
-                    comments
+                    <AddComments onSubmit={handleSubmit} />
                 </div>
             </div>
+            {comments.length > 0 && (
+                <div className="card mb-3">
+                    <div className="card-body ">
+                        <h2>Comments</h2>
+                        <hr />
+                        <ListOfComments
+                            comments={sortedComments}
+                            onRemove={handleRemove}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

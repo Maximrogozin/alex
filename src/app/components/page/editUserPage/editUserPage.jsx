@@ -154,6 +154,14 @@ const EditUserPage = ({ userId }) => {
 
     return (
         <>
+            <div className="mx-5 mr-5">
+                <button
+                    className="btn btn-primary bi bi-caret-left-fill mx-3 mt-5"
+                    onClick={() => history.goBack()}
+                >
+                    Назад
+                </button>
+            </div>
             {loading === false ? (
                 <div className="container mt-5 ">
                     <div className="row">

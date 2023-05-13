@@ -1,12 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, userId }) => {
+    const history = useHistory();
     return (
         <div className="card mb-3">
             <div className="card-body">
                 <button className="position-absolute top-0 end-0 btn btn-light btn-sm">
-                    <i className="bi bi-gear"></i>
+                    <i
+                        onClick={() => {
+                            history.push(`/users/${userId}/edit`);
+                        }}
+                        className="bi bi-gear"
+                    ></i>
                 </button>
                 <div className="d-flex flex-column align-items-center text-center position-relative">
                     <img
@@ -43,7 +50,8 @@ const UserCard = ({ user }) => {
     );
 };
 UserCard.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    userId: PropTypes.string.isRequired
 };
 
 export default UserCard;

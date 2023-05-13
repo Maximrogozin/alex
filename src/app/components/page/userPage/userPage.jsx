@@ -5,28 +5,20 @@ import UserCard from "../../ui/userCard";
 import UserQualities from "../../ui/userQualities";
 import UserCompletedMeetings from "../../ui/userCompletedMeetings";
 import Comments from "../../common/comments/comments";
-// import SelectedUser from "../../common/form/comments/selectedUser";
-// import { useHistory } from "react-router-dom";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
-    // const history = useHistory();
 
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
-    console.log(user);
-
-    // const handleToUsers = () => {
-    //     history.push("/users");
-    // };
 
     if (user) {
         return (
             <div className="container">
                 <div className="row gutters-sm">
                     <div className="col-md-4 mb-3">
-                        <UserCard user={user} />
+                        <UserCard user={user} userId={userId} />
                         <UserQualities user={user.qualities} />
                         <UserCompletedMeetings
                             numbers={user.completedMeetings}

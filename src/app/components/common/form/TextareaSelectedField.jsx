@@ -1,11 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const TextareaSelectedField = ({ label, type, name, value, onChange }) => {
-    // const [showPassword, setShowPassword] = useState(false);
-
+const TextareaSelectedField = ({
+    label,
+    type,
+    name,
+    value,
+    onChange,
+    error
+}) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
+    };
+
+    const getInputClasses = () => {
+        return "form-control " + (error ? "is-invalid" : "");
     };
 
     return (
@@ -18,8 +27,10 @@ const TextareaSelectedField = ({ label, type, name, value, onChange }) => {
                     name={name}
                     value={value}
                     onChange={handleChange}
-                    className="form-control"
+                    // className="form-control"
+                    className={getInputClasses()}
                 ></textarea>
+                {error && <div className="invalid-feedback">{error}</div>}
             </div>
         </div>
     );
