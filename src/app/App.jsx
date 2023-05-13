@@ -1,38 +1,24 @@
-import React, { useState, useEffect } from "react";
-import Users from "./components/users";
-
-import api from "./api";
+import React from "react";
+import NavBar from "./components/ui/navBar";
+import { Redirect, Route, Switch } from "react-router-dom";
+import Login from "./layouts/login";
+import Main from "./layouts/main";
+import NotFound from "./components/not-found";
+import Users from "./layouts/users";
 
 function App() {
-  const [users, setUsers] = useState();
-  useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-  }, []);
-  const handleDelete = (userId) => {
-    setUsers(users.filter((user) => user._id !== userId));
-  };
-  const handleToggleBookMark = (id) => {
-    setUsers(
-      users.map((user) => {
-        if (user._id === id) {
-          return { ...user, bookmark: !user.bookmark };
-        }
-        return user;
-      })
+    return (
+        <>
+            <NavBar />
+            <Switch>
+                <Route path="/users/:userId?/:edit?" component={Users} />
+                <Route path="/login/:type?" component={Login} />
+                <Route path="/" component={Main} />
+                <Route path="/404" component={NotFound} />
+                <Redirect to="404" />
+            </Switch>
+        </>
     );
-    console.log(id);
-  };
-  return (
-    <div>
-      {users && (
-        <Users
-          onDelete={handleDelete}
-          onToggleBookMark={handleToggleBookMark}
-          users={users}
-        />
-      )}
-    </div>
-  );
 }
 
 export default App;
