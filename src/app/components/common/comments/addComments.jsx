@@ -4,10 +4,10 @@ import TextareaSelectedField from "../form/textareaSelectedField";
 import { validator } from "../../../utils/validator";
 import api from "../../../api";
 import PropTypes from "prop-types";
-const initial = { userId: "", content: "" };
+const initialDate = { userId: "", content: "" };
 
 const AddComments = ({ onSubmit }) => {
-    const [data, setData] = useState(initial);
+    const [data, setData] = useState(initialDate);
     const [errors, setErrors] = useState({ userId: "", content: "" });
     const [user, setUser] = useState([]);
 
@@ -55,7 +55,7 @@ const AddComments = ({ onSubmit }) => {
     };
 
     const clearForm = () => {
-        setData(initial);
+        setData(initialDate);
         setErrors({});
     };
 
