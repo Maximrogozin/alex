@@ -9,10 +9,9 @@ const Comments = () => {
     const { userId } = useParams();
     const [comments, setComments] = useState([]);
     useEffect(() => {
-        api.comments.fetchCommentsForUser(userId).then((data) => {
-            setComments(data);
-            console.log(data);
-        });
+        api.comments
+            .fetchCommentsForUser(userId)
+            .then((data) => setComments(data));
     }, []);
 
     const handleRemove = (id) => {
@@ -31,6 +30,7 @@ const Comments = () => {
     };
 
     const sortedComments = _.orderBy(comments, ["created_at"], ["desc"]);
+
     return (
         <div className="col-md-8">
             <div className="card mb-2">

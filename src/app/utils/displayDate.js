@@ -14,10 +14,18 @@ export function getDayFormat(importTime, separator = " ") {
             // сравниваем часы
             const hoursDiff = currentTime.getHours() - time.getHours();
             if (hoursDiff === 0) {
-                // сравниваем минуты
+                // сравниваем минуты по 30, 10, 5, 1
                 const minutesDiff =
                     currentTime.getMinutes() - time.getMinutes();
-                if (minutesDiff === 0) return "30 мин назад";
+
+                if (minutesDiff >= 30 && minutesDiff < 60) {
+                    return "30 мин назад";
+                }
+                if (minutesDiff >= 10 && minutesDiff < 30) {
+                    return "10 мин назад";
+                }
+                if (minutesDiff >= 5 && minutesDiff < 10) return "5 мин назад";
+                if (minutesDiff >= 0 && minutesDiff < 5) return "1 мин назад";
             }
             return time.getHours() + time.getMinutes();
         }
