@@ -4,7 +4,7 @@ import api from "../../../api";
 import UserCard from "../../ui/userCard";
 import UserQualities from "../../ui/userQualities";
 import UserCompletedMeetings from "../../ui/userCompletedMeetings";
-import Comments from "../../common/comments/comments";
+import Comments from "../../ui/comments";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
@@ -12,13 +12,12 @@ const UserPage = ({ userId }) => {
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
-
     if (user) {
         return (
             <div className="container">
                 <div className="row gutters-sm">
                     <div className="col-md-4 mb-3">
-                        <UserCard user={user} userId={userId} />
+                        <UserCard user={user} />
                         <UserQualities user={user.qualities} />
                         <UserCompletedMeetings
                             numbers={user.completedMeetings}
