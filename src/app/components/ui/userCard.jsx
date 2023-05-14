@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-const UserCard = ({ user, userId }) => {
+const UserCard = ({ user }) => {
     const history = useHistory();
     return (
         <div className="card mb-3">
@@ -10,7 +10,7 @@ const UserCard = ({ user, userId }) => {
                 <button className="position-absolute top-0 end-0 btn btn-light btn-sm">
                     <i
                         onClick={() => {
-                            history.push(`/users/${userId}/edit`);
+                            history.push(history.location.pathname + "/edit");
                         }}
                         className="bi bi-gear"
                     ></i>
@@ -51,7 +51,7 @@ const UserCard = ({ user, userId }) => {
 };
 UserCard.propTypes = {
     user: PropTypes.object,
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string
 };
 
 export default UserCard;

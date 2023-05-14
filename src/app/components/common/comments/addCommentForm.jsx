@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { validator } from "../../../utils/validator";
 import SelectField from "../form/selectField";
 import TextareaSelectedField from "../form/textareaSelectedField";
-import { validator } from "../../../utils/validator";
 import api from "../../../api";
-import PropTypes from "prop-types";
-const initialDate = { userId: "", content: "" };
 
-const AddComments = ({ onSubmit }) => {
+const initialDate = { userId: "", content: "" };
+const AddCommentForm = ({ onSubmit }) => {
     const [data, setData] = useState(initialDate);
     const [errors, setErrors] = useState({ userId: "", content: "" });
     const [user, setUser] = useState([]);
 
-    // мой валидатор для формы нового комментария
     const validatorConfig = {
         userId: {
             isRequared: {
-                message: "Обязательно выберете пользователя"
+                message: "Выберете от чьего имени вы хотите отправить сообщение"
             }
         },
         content: {
             isRequared: {
-                message: "Обязательно напишите сообщение"
+                message: "Сообщение не может быть пустым"
             }
         }
     };
@@ -45,7 +44,7 @@ const AddComments = ({ onSubmit }) => {
         return Object.keys(errors).length === 0;
     };
 
-    // const isValid = Object.keys(errors).length === 0;
+    const isValid = Object.keys(errors).length === 0;
 
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -63,7 +62,7 @@ const AddComments = ({ onSubmit }) => {
         event.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        onSubmit(data); // добавили data в ф-ю добавл нов. коммента
+        onSubmit(data);
         clearForm();
     };
     console.log(data);
@@ -92,8 +91,8 @@ const AddComments = ({ onSubmit }) => {
                     <div className="d-flex justify-content-end">
                         <button
                             type="submit"
-                            className="btn btn-primary text-white btn-outline-info "
-                            // onClick={onSubmit}
+                            className="btn btn-info text-dark btn-outline-info"
+                            disabled={!isValid}
                         >
                             Опубликовать
                         </button>
@@ -103,8 +102,8 @@ const AddComments = ({ onSubmit }) => {
         </>
     );
 };
-AddComments.propTypes = {
+AddCommentForm.propTypes = {
     onSubmit: PropTypes.func
 };
 
-export default AddComments;
+export default AddCommentForm;

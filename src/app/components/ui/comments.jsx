@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import AddComments from "./addComments";
-import ListOfComments from "./listOfComments";
-import api from "../../../api";
-import { useParams } from "react-router-dom";
+import api from "../../api";
 import _ from "lodash";
+import { useParams } from "react-router-dom";
+import AddCommentForm from "../common/comments/addCommentForm";
+import CommentsList from "../common/comments/CommentsList";
 
 const Comments = () => {
     const { userId } = useParams();
@@ -36,7 +36,7 @@ const Comments = () => {
             <div className="card mb-2">
                 {" "}
                 <div className="card-body ">
-                    <AddComments onSubmit={handleSubmit} />
+                    <AddCommentForm onSubmit={handleSubmit} />
                 </div>
             </div>
             {comments.length > 0 && (
@@ -44,7 +44,7 @@ const Comments = () => {
                     <div className="card-body ">
                         <h2>Comments</h2>
                         <hr />
-                        <ListOfComments
+                        <CommentsList
                             comments={sortedComments}
                             onRemove={handleRemove}
                         />
