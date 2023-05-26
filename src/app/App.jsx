@@ -7,21 +7,26 @@ import Main from "./layouts/main";
 import NotFound from "./components/not-found";
 import Users from "./layouts/users";
 import { ProfessionProvider } from "./hooks/useProfession";
+import { QualityProvider } from "./hooks/useQuality";
 
 function App() {
     return (
         <>
             <NavBar />
-            <ProfessionProvider>
-                <Switch>
-                    <Route path="/users/:userId?/:edit?" component={Users} />
-                    <Route path="/login/:type?" component={Login} />
-                    <Route path="/" component={Main} />
-                    <Route path="/404" component={NotFound} />
-                    <Redirect to="404" />
-                </Switch>
-            </ProfessionProvider>
-
+            <QualityProvider>
+                <ProfessionProvider>
+                    <Switch>
+                        <Route
+                            path="/users/:userId?/:edit?"
+                            component={Users}
+                        />
+                        <Route path="/login/:type?" component={Login} />
+                        <Route path="/" component={Main} />
+                        <Route path="/404" component={NotFound} />
+                        <Redirect to="404" />
+                    </Switch>
+                </ProfessionProvider>
+            </QualityProvider>
             <ToastContainer />
         </>
     );
