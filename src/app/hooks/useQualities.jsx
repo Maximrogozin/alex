@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import qualityService from "../services/quality.service";
 
-const QualityContext = React.createContext();
+const QualitiesContext = React.createContext();
 
-export const useQuality = () => {
-    return useContext(QualityContext);
+export const useQualities = () => {
+    return useContext(QualitiesContext);
 };
 
-export const QualityProvider = ({ children }) => {
+export const QualitiesProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
-    const [quality, setQuality] = useState([]);
+    const [qualities, setQualities] = useState([]);
     const [error, setError] = useState(null);
     useEffect(() => {
         if (error !== null) {
@@ -20,7 +20,7 @@ export const QualityProvider = ({ children }) => {
         }
     }, [error]);
     useEffect(() => {
-        getQualityList();
+        getQualitiesList();
     }, []);
 
     function errorCatcher(error) {
@@ -28,14 +28,14 @@ export const QualityProvider = ({ children }) => {
         setError(message);
     }
 
-    function getQuality(id) {
-        return quality.find((q) => q._id === id);
+    function getQualities(id) {
+        return qualities.find((q) => q._id === id);
     }
 
-    async function getQualityList() {
+    async function getQualitiesList() {
         try {
             const { content } = await qualityService.get();
-            setQuality(content);
+            setQualities(content);
             setLoading(false);
         } catch (error) {
             errorCatcher(error);
@@ -43,12 +43,14 @@ export const QualityProvider = ({ children }) => {
     }
 
     return (
-        <QualityContext.Provider value={{ isLoading, quality, getQuality }}>
+        <QualitiesContext.Provider
+            value={{ isLoading, qualities, getQualities }}
+        >
             {children}
-        </QualityContext.Provider>
+        </QualitiesContext.Provider>
     );
 };
-QualityProvider.propTypes = {
+QualitiesProvider.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
