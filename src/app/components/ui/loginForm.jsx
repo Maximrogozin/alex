@@ -84,13 +84,13 @@ const LoginForm = () => {
         event.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
         try {
             await SignIn(data);
             history.push("/");
         } catch (error) {
             setEnterError(error.message);
             // setErrors(error);
+            //rrr
         }
     };
 
