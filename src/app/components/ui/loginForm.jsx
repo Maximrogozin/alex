@@ -13,14 +13,16 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-    const { logIn } = useAuth();
-    const [errors, setErrors] = useState("");
+    const { SignIn } = useAuth();
+    const [errors, setErrors] = useState({});
+    const [enterError, setEnterError] = useState(null);
 
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
+        setEnterError(null);
     };
 
     // const validateScheme = yup.object().shape({
@@ -53,24 +55,11 @@ const LoginForm = () => {
         email: {
             isRequared: {
                 message: "Электронная почта обязательна для заполнения"
-            },
-            isEmail: {
-                message: "Email введен некорректно"
             }
         },
         password: {
             isRequared: {
                 message: "Пароль обязателен для заполнения"
-            },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigit: {
-                message: "Пароль должен содержать хотя бы одно число"
-            },
-            min: {
-                message: "Пароль должен состоять минимум из 8 символов",
-                value: 8
             }
         }
     };
@@ -97,10 +86,11 @@ const LoginForm = () => {
         if (!isValid) return;
         console.log(data);
         try {
-            await logIn(data);
+            await SignIn(data);
             history.push("/");
         } catch (error) {
-            setErrors(error);
+            setEnterError(error.message);
+            // setErrors(error);
         }
     };
 
@@ -128,9 +118,10 @@ const LoginForm = () => {
             >
                 Оставаться в системе
             </CheckBoxField>
+            {enterError && <p className="text-danger">{enterError}</p>}
             <button
                 type="submit"
-                disabled={!isValid}
+                disabled={!isValid || enterError}
                 className="btn btn-primary w-100 mx-auto mb-2"
             >
                 Submit
