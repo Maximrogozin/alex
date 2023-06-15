@@ -26,7 +26,7 @@ const UserQualities = ({ user }) => {
     );
 };
 UserQualities.propTypes = {
-    user: PropTypes.arrayOf(PropTypes.object)
+    user: PropTypes.array
 };
 
 export default UserQualities;

@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import api from "../../../api";
 import UserCard from "../../ui/userCard";
 import UserQualities from "../../ui/userQualities";
 import UserCompletedMeetings from "../../ui/userCompletedMeetings";
 import Comments from "../../ui/comments";
+import { useUser } from "../../../hooks/useUsers";
+import { CommentsProvider } from "../../../hooks/useComments";
 
 const UserPage = ({ userId }) => {
-    const [user, setUser] = useState();
+    const { getUserById } = useUser();
+    const user = getUserById(userId);
 
-    useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
-    }, []);
     if (user) {
         return (
             <div className="container">
@@ -23,7 +22,11 @@ const UserPage = ({ userId }) => {
                             numbers={user.completedMeetings}
                         />
                     </div>
-                    <Comments />
+                    <div className="col-md-8">
+                        <CommentsProvider>
+                            <Comments />
+                        </CommentsProvider>
+                    </div>
                 </div>
             </div>
         );

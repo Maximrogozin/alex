@@ -8,8 +8,6 @@ const Qualitie = ({ _id: id }) => {
     return <span className={"badge m-1 bg-" + color}>{name}</span>;
 };
 Qualitie.propTypes = {
-    color: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired
 };
 
