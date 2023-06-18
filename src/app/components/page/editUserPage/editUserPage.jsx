@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-// import api from "../../../api";
-// import { validator } from "../../../utils/validator";
+import { validator } from "../../../utils/validator";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import SelectField from "../../common/form/selectField";
@@ -21,15 +20,13 @@ const EditUserPage = ({ userId }) => {
         qualities: [],
         licence: false
     });
-    // const [data, setData] = useState({});
     const { professions, isLoading: profLoading } = useProfessions();
     const { qualities, isLoading: qualLoading } = useQualities();
     const { getUserById } = useUser();
     const { updateUser } = useAuth();
-
     const user = getUserById(userId);
     const [loading, setLoading] = useState(true);
-    // const [errors, setErrors] = useState("");
+    const [errors, setErrors] = useState({});
 
     const professionsList = professions.map((p) => ({
         label: p.name,
@@ -87,43 +84,17 @@ const EditUserPage = ({ userId }) => {
         if (!profLoading && !qualLoading && user) {
             setLoading(false);
         }
-    }, [user, profLoading, qualLoading]);
+        // }, [user, profLoading, qualLoading]);
+        // }, [data, profLoading, qualLoading, user]);
+    }, [profLoading, qualLoading, user]);
 
     useEffect(() => {
         // setLoading(true);
-        // api.users.getById(userId).then((user) => {
-        //     setData((prevstate) => ({
-        //         ...prevstate,
-        //         ...user,
-        //         profession: user.profession._id,
-        //         qualities: transformData(user.qualities)
-        //     }));
-        // });
-        // getUserById(userId).then((user) => {
         setData((prevstate) => ({
             ...prevstate,
             ...user,
             qualities: getQualities(user.qualities)
         }));
-        // setData(user);
-
-        // });
-
-        // api.professions.fetchAll().then((data) => {
-        //     const professionsList = Object.keys(data).map((professionName) => ({
-        //         label: data[professionName].name,
-        //         value: data[professionName]._id
-        //     }));
-        //     setProfession(professionsList);
-        // });
-        // api.qualities.fetchAll().then((data) => {
-        //     const qualitiesList = Object.keys(data).map((optionName) => ({
-        //         label: data[optionName].name,
-        //         value: data[optionName]._id,
-        //         color: data[optionName].color
-        //     }));
-        //     setQualities(qualitiesList);
-        // });
     }, []);
 
     const newQualities = getQualities(user.qualities);
@@ -136,67 +107,66 @@ const EditUserPage = ({ userId }) => {
         }));
     };
 
-    // const validatorConfig = {
-    //     email: {
-    //         isRequared: {
-    //             message: "Электронная почта обязательна для заполнения"
-    //         },
-    //         isEmail: {
-    //             message: "Email введен некорректно"
-    //         }
-    //     },
-    //     password: {
-    //         isRequared: {
-    //             message: "Пароль обязательна для заполнения"
-    //         },
-    //         isCapitalSymbol: {
-    //             message: "Пароль должен содержать хотя бы одну заглавную букву"
-    //         },
-    //         isContainDigit: {
-    //             message: "Пароль должен содержать хотя бы одно число"
-    //         },
-    //         min: {
-    //             message: "Пароль должен состоять минимум из 8 символов",
-    //             value: 8
-    //         }
-    //     },
-    //     profession: {
-    //         isRequared: {
-    //             message: "Обязательно выберите вашу профессию"
-    //         }
-    //     },
-    //     licence: {
-    //         isRequared: {
-    //             message:
-    //                 "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
-    //         }
-    //     }
-    // };
+    const validatorConfig = {
+        email: {
+            isRequared: {
+                message: "Электронная почта обязательна для заполнения"
+            },
+            isEmail: {
+                message: "Email введен некорректно"
+            }
+        },
+        name: {
+            isRequared: {
+                message: "Имя обязательно для заполнения"
+            },
+            min: {
+                message: "Имя должно состоять минимум из 3 символов",
+                value: 3
+            }
+        },
+        profession: {
+            isRequared: {
+                message: "Обязательно выберите вашу профессию"
+            }
+        },
+        // qualities: {
+        //     isRequared: {
+        //         message: "Обязательно выберите ваши качества"
+        //     }
+        // },
+        licence: {
+            isRequared: {
+                message:
+                    "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
+            }
+        }
+    };
 
-    // useEffect(() => {
-    //     validate();
-    // }, [data]);
+    useEffect(() => {
+        validate();
+        // }, [data]);
+    }, [data]);
+    console.log(errors);
 
-    // const validate = () => {
-    //     const errors = validator(data, validatorConfig);
+    const validate = () => {
+        const errors = validator(data, validatorConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
-    //     setErrors(errors);
-    //     return Object.keys(errors).length === 0;
-    // };
-
-    // const isValid = Object.keys(errors).length === 0;
+    const isValid = Object.keys(errors).length === 0;
+    console.log(isValid);
+    console.log(errors);
 
     const handleSubmit = (event) => {
-        console.log(data);
         event.preventDefault();
+        const isValid = validate();
+        if (!isValid) return;
         updateUser({
             ...data,
             qualities: data.qualities.map((qual) => qual.value)
         });
-        // setData({
-        //     ...data,
-        //     qualities: data.qualities.map((qual) => qual.balue)
-        // });
     };
 
     return (
@@ -214,14 +184,14 @@ const EditUserPage = ({ userId }) => {
                                     name="name"
                                     value={data.name}
                                     onChange={handleChange}
-                                    // error={errors.name}
+                                    error={errors.name}
                                 />
                                 <TextField
                                     label="Электронная почта"
                                     name="email"
                                     value={data.email}
                                     onChange={handleChange}
-                                    // error={errors.email}
+                                    error={errors.email}
                                 />
 
                                 <SelectField
@@ -231,7 +201,7 @@ const EditUserPage = ({ userId }) => {
                                     options={professionsList}
                                     onChange={handleChange}
                                     value={data.profession}
-                                    // error={errors.profession}
+                                    error={errors.profession}
                                 />
                                 <RadioField
                                     options={[
@@ -253,7 +223,7 @@ const EditUserPage = ({ userId }) => {
                                 />
                                 <button
                                     type="submit"
-                                    // disabled={!isValid}
+                                    disabled={!isValid}
                                     className="btn btn-primary w-100 mx-auto mb-2"
                                 >
                                     Обновить данные
