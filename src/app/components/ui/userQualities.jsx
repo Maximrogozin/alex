@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import Qualitie from "./qualities/qualitie";
 import Qualities from "./qualities";
 
 const UserQualities = ({ user }) => {
@@ -26,7 +25,7 @@ const UserQualities = ({ user }) => {
     );
 };
 UserQualities.propTypes = {
-    user: PropTypes.arrayOf(PropTypes.object)
+    user: PropTypes.array
 };
 
 export default UserQualities;

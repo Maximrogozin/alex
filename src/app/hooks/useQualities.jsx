@@ -10,37 +10,38 @@ export const useQualities = () => {
 };
 
 export const QualitiesProvider = ({ children }) => {
-    const [isLoading, setLoading] = useState(true);
     const [qualities, setQualities] = useState([]);
     const [error, setError] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+
     useEffect(() => {
-        if (error !== null) {
-            toast(error);
-            setError(null);
+        async function getQualities() {
+            try {
+                const { content } = await qualityService.get();
+                setQualities(content);
+                setLoading(false);
+            } catch (error) {
+                errorCatcher(error);
+            }
         }
-    }, [error]);
-    useEffect(() => {
-        getQualitiesList();
+        getQualities();
     }, []);
+
+    function getQualities(id) {
+        return qualities.find((q) => q._id === id);
+    }
 
     function errorCatcher(error) {
         const { message } = error.response.data;
         setError(message);
     }
 
-    function getQualities(id) {
-        return qualities.find((q) => q._id === id);
-    }
-
-    async function getQualitiesList() {
-        try {
-            const { content } = await qualityService.get();
-            setQualities(content);
-            setLoading(false);
-        } catch (error) {
-            errorCatcher(error);
+    useEffect(() => {
+        if (error !== null) {
+            toast(error);
+            setError(null);
         }
-    }
+    }, [error]);
 
     return (
         <QualitiesContext.Provider
