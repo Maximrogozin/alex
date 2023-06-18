@@ -15,7 +15,6 @@ export const useComments = () => {
 export const CommentsProvider = ({ children }) => {
     const { userId } = useParams();
     const { currentUser } = useAuth();
-
     const [isLoading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);
@@ -58,6 +57,7 @@ export const CommentsProvider = ({ children }) => {
     async function removeComment(id) {
         try {
             const { content } = await commentService.removeComment(id);
+            console.log(content);
             if (content === null) {
                 setComments((prevState) =>
                     prevState.filter((c) => c._id !== id)
