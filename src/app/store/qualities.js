@@ -39,7 +39,7 @@ function isOutdated(date) {
 export const loadQualitiesList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().qualities;
     if (isOutdated(lastFetch)) {
-        console.log("lastFetch", lastFetch);
+        // console.log("lastFetch", lastFetch);
         dispatch(qualitiesRequested());
         try {
             const { content } = await qualityService.fetchAll();
@@ -53,7 +53,10 @@ export const loadQualitiesList = () => async (dispatch, getState) => {
 export const getQualities = () => (state) => state.qualities.entities;
 export const getQualitiesLoadingStatus = () => (state) =>
     state.qualities.isLoading;
+
 export const getQualitiesByIds = (qualitiesIds) => (state) => {
+    // console.log("qualitiesIds", qualitiesIds);
+    // console.log("state", state.qualities.entities);
     if (state.qualities.entities) {
         const qualitiesArray = [];
         for (const qualId of qualitiesIds) {

@@ -7,16 +7,18 @@ import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
 import { useUser } from "../../../hooks/useUsers";
-import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+    getPeofessionsLoadingStatus,
+    getProfessions
+} from "../../../store/professions";
 
 const UsersListPage = () => {
     const { users } = useUser();
     const { currentUser } = useAuth();
-    const { professions, isLoading: professionsLoading } = useProfessions();
-    console.log(professionsLoading);
-    console.log(professions);
-
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getPeofessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
@@ -25,7 +27,6 @@ const UsersListPage = () => {
 
     const handleDelete = (userId) => {
         // setUsers(users.filter((user) => user._id !== userId));
-        console.log(userId);
     };
 
     const handleToggleBookMark = (id) => {

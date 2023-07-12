@@ -6,7 +6,6 @@ import MultiSelectField from "../../common/form/multiSelectField";
 import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import BackHistoryButton from "../../common/BackButton";
-import { useProfessions } from "../../../hooks/useProfession";
 import { useUser } from "../../../hooks/useUsers";
 import { useAuth } from "../../../hooks/useAuth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -15,6 +14,7 @@ import {
     getQualities,
     getQualitiesLoadingStatus
 } from "..//..//../store/qualities";
+import { getProfessions } from "../../../store/professions";
 
 const EditUserPage = ({ userId }) => {
     const history = useHistory();
@@ -26,9 +26,9 @@ const EditUserPage = ({ userId }) => {
         qualities: [],
         licence: false
     });
-    const { professions, isLoading: profLoading } = useProfessions();
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getQualitiesLoadingStatus());
     const qualities = useSelector(getQualities());
-    console.log(data);
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const { getUserById } = useUser();
     const { updateUserData } = useAuth();
@@ -63,10 +63,10 @@ const EditUserPage = ({ userId }) => {
     }
 
     useEffect(() => {
-        if (!profLoading && !qualitiesLoading && user) {
+        if (!professionsLoading && !qualitiesLoading && user) {
             setLoading(false);
         }
-    }, [profLoading, qualitiesLoading, user]);
+    }, [professionsLoading, qualitiesLoading, user]);
 
     useEffect(() => {
         setData({
