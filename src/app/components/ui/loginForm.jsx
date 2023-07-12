@@ -86,7 +86,6 @@ const LoginForm = () => {
         if (!isValid) return;
         try {
             await SignIn(data);
-
             history.push(
                 history.location.state
                     ? history.location.state.from.pathname

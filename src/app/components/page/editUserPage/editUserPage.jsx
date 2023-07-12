@@ -7,11 +7,17 @@ import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import BackHistoryButton from "../../common/BackButton";
 import { useProfessions } from "../../../hooks/useProfession";
-import { useQualities } from "../../../hooks/useQualities";
 import { useUser } from "../../../hooks/useUsers";
 import { useAuth } from "../../../hooks/useAuth";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useSelector } from "react-redux";
+import {
+    getQualities,
+    getQualitiesLoadingStatus
+} from "..//..//../store/qualities";
 
 const EditUserPage = ({ userId }) => {
+    const history = useHistory();
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -21,9 +27,11 @@ const EditUserPage = ({ userId }) => {
         licence: false
     });
     const { professions, isLoading: profLoading } = useProfessions();
-    const { qualities, isLoading: qualLoading } = useQualities();
+    const qualities = useSelector(getQualities());
+    console.log(data);
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const { getUserById } = useUser();
-    const { updateUser } = useAuth();
+    const { updateUserData } = useAuth();
     const user = getUserById(userId);
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState({});
@@ -33,32 +41,6 @@ const EditUserPage = ({ userId }) => {
         value: p._id
     }));
 
-    // const getProfessionById = (id) => {
-    //     for (const prof of professions) {
-    //         if (prof.value === id) {
-    //             return { _id: prof.value, name: prof.label };
-    //         }
-    //     }
-    // };
-
-    // qualitiesId
-    // const transformData = () => {
-    //     const qualitiesList = getQualities(qualities).map((q) => ({
-    //         label: q.name,
-    //         value: q._id
-    //     }));
-    //     console.log(qualitiesList);
-    //     return qualitiesList;
-    // };
-
-    // const transformData = () => {
-    //     const qualitiesList = getQualities(qualities).map((q) => ({
-    //         label: q.name,
-    //         value: q._id
-    //     }));
-    //     console.log(qualitiesList);
-    //     return qualitiesList;
-    // };
     function transformData(data) {
         return data.map((qual) => ({
             label: qual.name,
@@ -66,7 +48,7 @@ const EditUserPage = ({ userId }) => {
         }));
     }
 
-    function getQualities(elements) {
+    function getQualities1(elements) {
         const qualitiesArray = [];
         for (const qualId of elements) {
             // элементы наших id массива качест этого юзера
@@ -81,26 +63,19 @@ const EditUserPage = ({ userId }) => {
     }
 
     useEffect(() => {
-        if (!profLoading && !qualLoading && user) {
+        if (!profLoading && !qualitiesLoading && user) {
             setLoading(false);
         }
-        // }, [user, profLoading, qualLoading]);
-        // }, [data, profLoading, qualLoading, user]);
-    }, [profLoading, qualLoading, user]);
+    }, [profLoading, qualitiesLoading, user]);
 
     useEffect(() => {
-        // setLoading(true);
-        setData((prevstate) => ({
-            ...prevstate,
+        setData({
             ...user,
-            qualities: getQualities(user.qualities)
-        }));
+            qualities: transformData(getQualities1(user.qualities))
+        });
     }, []);
 
-    const newQualities = getQualities(user.qualities);
-
     const handleChange = (target) => {
-        console.log(data);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -145,9 +120,7 @@ const EditUserPage = ({ userId }) => {
 
     useEffect(() => {
         validate();
-        // }, [data]);
     }, [data]);
-    console.log(errors);
 
     const validate = () => {
         const errors = validator(data, validatorConfig);
@@ -156,18 +129,19 @@ const EditUserPage = ({ userId }) => {
     };
 
     const isValid = Object.keys(errors).length === 0;
-    console.log(isValid);
-    console.log(errors);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        updateUser({
+        updateUserData({
             ...data,
             qualities: data.qualities.map((qual) => qual.value)
         });
+        history.goBack();
     };
+
+    console.log(data.qualities);
 
     return (
         <>
@@ -217,7 +191,7 @@ const EditUserPage = ({ userId }) => {
                                 <MultiSelectField
                                     options={transformData(qualities)}
                                     onChange={handleChange}
-                                    defaultValue={transformData(newQualities)}
+                                    defaultValue={data.qualities}
                                     name="qualities"
                                     label="Выберите ваши качества"
                                 />
