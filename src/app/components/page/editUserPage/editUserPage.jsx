@@ -7,15 +7,15 @@ import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import BackHistoryButton from "../../common/BackButton";
 // import { useUser } from "../../../hooks/useUsers";
-import { useAuth } from "../../../hooks/useAuth";
+// import { useAuth } from "../../../hooks/useAuth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     getQualities,
     getQualitiesLoadingStatus
 } from "..//..//../store/qualities";
 import { getProfessions } from "../../../store/professions";
-import { getCurrentUserData } from "../../../store/users";
+import { getCurrentUserData, updateUser } from "../../../store/users";
 
 const EditUserPage = ({ userId }) => {
     const history = useHistory();
@@ -32,7 +32,8 @@ const EditUserPage = ({ userId }) => {
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     // const { getUserById } = useUser();
-    const { updateUserData } = useAuth();
+    // const { updateUserData } = useAuth();
+    const dispatch = useDispatch();
     const currentUser = useSelector(getCurrentUserData());
     // const user = getUserById(userId);
     const user = useSelector(getCurrentUserData());
@@ -137,15 +138,15 @@ const EditUserPage = ({ userId }) => {
         event.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        updateUserData({
-            ...data,
-            qualities: data.qualities.map((qual) => qual.value)
-        });
+        dispatch(
+            updateUser({
+                ...data,
+                qualities: data.qualities.map((qual) => qual.value)
+            })
+        );
         // history.goBack();
         history.push(`/users/${currentUser._id}`);
     };
-
-    console.log(data.qualities);
 
     return (
         <>
