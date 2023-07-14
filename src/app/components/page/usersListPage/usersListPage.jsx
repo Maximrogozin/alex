@@ -6,17 +6,17 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import _ from "lodash";
-import { useUser } from "../../../hooks/useUsers";
-import { useAuth } from "../../../hooks/useAuth";
+// import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import {
     getPeofessionsLoadingStatus,
     getProfessions
 } from "../../../store/professions";
+import { getCurrentUserId, getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
-    const { users } = useUser();
-    const { currentUser } = useAuth();
+    const users = useSelector(getUsersList());
+    const currentUserId = useSelector(getCurrentUserId());
     const professions = useSelector(getProfessions());
     const professionsLoading = useSelector(getPeofessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,7 +45,6 @@ const UsersListPage = () => {
     }, [selectedProf, searchQuery]);
 
     const handleProfessionSelect = (item) => {
-        // if (searchQuery !== "") setSearchQuery("");
         searchQuery !== "" && setSearchQuery("");
         setSelectedProf(item);
     };
@@ -79,7 +78,7 @@ const UsersListPage = () => {
                           JSON.stringify(selectedProf)
                   )
                 : data;
-            return filteredUsers.filter((u) => u._id !== currentUser._id);
+            return filteredUsers.filter((u) => u._id !== currentUserId);
         }
 
         const filteredUsers = filterUsers(users);

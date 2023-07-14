@@ -6,7 +6,7 @@ import MultiSelectField from "../../common/form/multiSelectField";
 import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import BackHistoryButton from "../../common/BackButton";
-import { useUser } from "../../../hooks/useUsers";
+// import { useUser } from "../../../hooks/useUsers";
 import { useAuth } from "../../../hooks/useAuth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import {
     getQualitiesLoadingStatus
 } from "..//..//../store/qualities";
 import { getProfessions } from "../../../store/professions";
+import { getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = ({ userId }) => {
     const history = useHistory();
@@ -30,9 +31,11 @@ const EditUserPage = ({ userId }) => {
     const professionsLoading = useSelector(getQualitiesLoadingStatus());
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
-    const { getUserById } = useUser();
+    // const { getUserById } = useUser();
     const { updateUserData } = useAuth();
-    const user = getUserById(userId);
+    const currentUser = useSelector(getCurrentUserData());
+    // const user = getUserById(userId);
+    const user = useSelector(getCurrentUserData());
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState({});
 
@@ -138,7 +141,8 @@ const EditUserPage = ({ userId }) => {
             ...data,
             qualities: data.qualities.map((qual) => qual.value)
         });
-        history.goBack();
+        // history.goBack();
+        history.push(`/users/${currentUser._id}`);
     };
 
     console.log(data.qualities);

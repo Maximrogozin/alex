@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { useSelector } from "react-redux";
+import { getCurrentUserData } from "../../store/users";
 
 const NavProfile = () => {
-    const { currentUser } = useAuth();
     const [isOpen, setOpen] = useState(false);
+
+    const currentUser = useSelector(getCurrentUserData());
     const toggleMenu = () => {
         setOpen((prevState) => !prevState);
     };
+    if (!currentUser) return "Loading";
     return (
         <div className="dropdown" onClick={toggleMenu}>
             <div className="btn dropdown-toggle d-flex align-items-center">
@@ -29,7 +32,6 @@ const NavProfile = () => {
                 <Link to="/logout" className="dropdown-item">
                     Log Out
                 </Link>
-                {/* <h1>some text</h1> */}
             </div>
         </div>
     );
