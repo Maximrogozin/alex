@@ -6,8 +6,6 @@ import MultiSelectField from "../../common/form/multiSelectField";
 import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import BackHistoryButton from "../../common/BackButton";
-// import { useUser } from "../../../hooks/useUsers";
-// import { useAuth } from "../../../hooks/useAuth";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,7 +31,6 @@ const EditUserPage = ({ userId }) => {
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const dispatch = useDispatch();
     const currentUser = useSelector(getCurrentUserData());
-    // const user = getUserById(userId);
     const user = useSelector(getCurrentUserData());
     const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState({});
