@@ -52,6 +52,7 @@ const usersSlice = createSlice({
                 state.entities = [];
             }
             state.entities.push(action.payload);
+            state.isLoading = false;
         },
         userLoggedOut: (state) => {
             state.entities = null;

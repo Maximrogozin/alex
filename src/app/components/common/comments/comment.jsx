@@ -11,7 +11,7 @@ const Comment = ({
     created_at: created,
     onRemove
 }) => {
-    const currentUserId = useSelector(getCurrentUserId);
+    const currentUserId = useSelector(getCurrentUserId());
     const user = useSelector(getUserById(userId));
 
     if (user) {

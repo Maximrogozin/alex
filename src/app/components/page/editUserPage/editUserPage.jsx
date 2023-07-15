@@ -31,8 +31,6 @@ const EditUserPage = ({ userId }) => {
     const professionsLoading = useSelector(getQualitiesLoadingStatus());
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
-    // const { getUserById } = useUser();
-    // const { updateUserData } = useAuth();
     const dispatch = useDispatch();
     const currentUser = useSelector(getCurrentUserData());
     // const user = getUserById(userId);
