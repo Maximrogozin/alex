@@ -13,11 +13,14 @@ const Profession = ({ id }) => {
         dispatch(loadProfessionsList());
     }, []);
 
-    const isLoading = useSelector(getPeofessionsLoadingStatus());
-    if (isLoading) {
-        return "loading ...";
-    }
-    const professionList = useSelector(getProfessionsByIds(id));
+    const isLoading = useSelector(getPeofessionsLoadingStatus);
+    if (isLoading) return "loading ...";
+
+    // const professionList = useSelector(getProfessionsByIds(id));
+    const professionList = useSelector((state) =>
+        getProfessionsByIds(id)(state)
+    );
+
     return <p>{professionList.name}</p>;
 };
 Profession.propTypes = {

@@ -9,7 +9,6 @@ import {
 } from "../../../store/qualities";
 
 const QualitiesList = ({ qualities }) => {
-    // console.log(qualities);
     const dispatch = useDispatch();
     const isLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = useSelector(getQualitiesByIds(qualities));

@@ -54,26 +54,10 @@ export const getPeofessionsLoadingStatus = () => (state) =>
     state.professions.isLoading;
 
 export const getProfessionsByIds = (professionId) => (state) => {
-    // console.log("professionsIds", professionsIds);
-    // console.log("state", state.professions.entities);
     const profs = state.professions.entities;
     if (profs) {
         return profs.find((obj) => obj._id === professionId);
     }
-    // if (state.professions.entities) {
-    //     const professionsArray = [];
-    //     for (const profId of professionsIds) {
-    //         for (const proffession of state.professions.entities) {
-    //             if (proffession._id === profId) {
-    //                 professionsArray.push(proffession);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     // console.log("professionsArray", professionsArray);
-    //     return professionsArray;
-    // }
-    // return [];
 };
 
 export default professionsReducer;

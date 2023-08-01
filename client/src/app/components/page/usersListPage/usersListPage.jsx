@@ -32,11 +32,13 @@ const UsersListPage = () => {
     const handleToggleBookMark = (id) => {
         const newArray = users.map((user) => {
             if (user._id === id) {
+                // console.log(id);
+                // console.log(user._id);
                 return { ...user, bookmark: !user.bookmark };
             }
+            console.log(user);
             return user;
         });
-        // setUsers(newArray)
         console.log(newArray);
     };
 
@@ -62,6 +64,7 @@ const UsersListPage = () => {
         setSearchQuery(target.value);
     };
 
+    /* eslint-disable no-inner-declarations */
     if (users) {
         function filterUsers(data) {
             const filteredUsers = searchQuery
@@ -75,7 +78,7 @@ const UsersListPage = () => {
                 ? data.filter(
                       (user) =>
                           JSON.stringify(user.profession) ===
-                          JSON.stringify(selectedProf)
+                          JSON.stringify(selectedProf._id)
                   )
                 : data;
             return filteredUsers.filter((u) => u._id !== currentUserId);

@@ -54,34 +54,6 @@ export const getQualities = () => (state) => state.qualities.entities;
 export const getQualitiesLoadingStatus = () => (state) =>
     state.qualities.isLoading;
 
-// export const getQualitiesByIds = (qualitiesIds) => (state) => {
-//     if (state.qualities.entities) {
-//         const qualitiesArray = [];
-//         for (const qualId of qualitiesIds) {
-//             for (const quality of state.qualities.entities) {
-//                 if (quality._id === qualId) {
-//                     qualitiesArray.push(quality);
-//                     break;
-//                 }
-//             }
-//         }
-//         return qualitiesArray;
-//     }
-//     return [];
-// };
-// export const getQualitiesByIds = (qualitiesIds) => (state) =>
-//     qualitiesIds.map((qualId) =>
-//         state.qualities.entities.find((qual) => qual._id === qualId)
-//     );
-
-// export const getQualitiesByIds = (qualitiesIds) =>
-//     createSelector(
-//         (state) => state.qualities.entities,
-//         (state) =>
-//             qualitiesIds.map((qualId) =>
-//                 state.find((qual) => qual._id === qualId)
-//             )
-//     );
 export const getQualitiesByIds = (qualitiesIds) =>
     createSelector(
         (state) => state.qualities.entities,
