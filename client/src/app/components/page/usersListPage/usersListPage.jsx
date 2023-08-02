@@ -40,6 +40,7 @@ const UsersListPage = () => {
             return user;
         });
         console.log(newArray);
+        return newArray;
     };
 
     useEffect(() => {
