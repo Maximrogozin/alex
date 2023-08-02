@@ -20,6 +20,7 @@ const Profession = ({ id }) => {
     const professionList = useSelector((state) =>
         getProfessionsByIds(id)(state)
     );
+    console.log(professionList);
 
     return <p>{professionList.name}</p>;
 };
